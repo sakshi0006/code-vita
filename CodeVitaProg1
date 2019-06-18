@@ -1,0 +1,189 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;  
+class prog1
+{
+    char sp[],md[],cp[],st1;String st;
+    int x,s,y,m,z,c,count=0,i,j,flag[],fg[],l,tp,t,a,b;
+    int main()
+    {
+        Scanner obj=new Scanner(System.in);
+        System.out.println("Enter the values of x,s,y,m,z,c");
+        x=obj.nextInt();
+        s=obj.nextInt();
+        y=obj.nextInt();
+        m=obj.nextInt();
+        z=obj.nextInt();
+        c=obj.nextInt();
+        sp=new char[x];
+        md=new char[y];
+        cp=new char[z];
+        System.out.println("Enter the value of que. that can appear only once");
+        st1=obj.next().charAt(0);
+        System.out.println("Enter the value of ques. that can not appear together");obj.nextLine();
+        st=obj.nextLine();System.out.println("Checkkk22="+st);
+        count=1;j=0;i=65;
+        while(j<x)
+        {
+            if((char)i==st1)
+            sp[j]='0';
+            else
+            sp[j]=(char)i;
+            j++;i++;
+        }
+        j=0;
+        while(j<y)
+        {
+           if((char)i==st1)
+            md[j]='0';
+            else
+            md[j]=(char)i;
+            j++;i++;
+        }
+        j=0; 
+        while(j<z)
+        {
+            if((char)i==st1)
+            cp[j]='0';
+            else
+            cp[j]=(char)i;
+            j++;i++;
+        }
+        flag=new int[3];
+        for(i=0;i<x;i++)
+        {
+            if(sp[i]==st.charAt(0)||sp[i]==st.charAt(2))
+              flag[0]=1;
+        }System.out.println("chkecking");
+         for(i=0;i<y;i++)
+        {
+            if(md[i]==st.charAt(0)||md[i]==st.charAt(2))
+              flag[1]=1;
+        }
+         for(i=0;i<z;i++)
+        {
+            if(cp[i]==st.charAt(0)||cp[i]==st.charAt(2))
+              flag[2]=1;
+        }
+        if(flag[0]==1&&flag[1]==0&&flag[2]==0)
+        t=simple();
+        if(flag[0]==0&&flag[1]==1&&flag[2]==0)
+        t=medium();
+        if(flag[0]==0&&flag[1]==0&&flag[2]==1)
+        t=complex();
+        else
+        t=differentArray();
+        
+        return (t+count);
+    }
+    int simple()
+    {
+        System.out.println("onn="+comb(x-1,s,sp)+"  ghon="+comb(y,m,md)+"  odo="+comb(z,c,cp));
+        return((comb(x-1,s,sp)*comb(y,m,md)*comb(z,c,cp))*2);
+    }
+    int medium()
+    {
+        return((comb(x,s,sp)*comb(y-1,m,md)*comb(z,c,cp))*2);
+    }
+    int complex()
+    {
+        return((comb(x,s,sp)*comb(y,m,md)*comb(z-1,c,cp))*2);
+    }
+    int differentArray()
+    {
+        for(i=0;i<=2;i++)
+        {
+            if(flag[0]==1)
+            {
+                a=0;if(flag[1]==1)
+                b=1;
+                else
+                b=2;
+             }
+             else
+             {
+                 a=1;b=2;
+             }
+        }System.out.println("a="+a+" b="+b);fg=new int[3];
+        if(a==0)as();
+        else am();
+        if(b==1) bm();
+        else bc();
+        for(i=0;i<3;i++)System.out.println("Ccc="+fg[i]);
+        if(fg[0]==1&&fg[1]==0&&fg[2]==0){System.out.println("bcckk="+simple());
+        return((int)simple()/2);}
+        else if(fg[0]==0&&fg[1]==1&&fg[2]==0)
+        return((int)medium()/2);
+        else if(fg[0]==0&&fg[1]==0&&fg[2]==1)
+        return((int)complex()/2);
+        else 
+        { 
+           if(a==0&&b==1)
+              return((int)medium()/2+(int)simple()/2);
+          else if(a==0&&b==2)
+              return((int)simple()/2+(int)complex()/2);
+          else 
+              return((int)medium()/2+(int)complex()/2);
+         }
+        
+    }
+    
+    void as()
+    {
+        l=0;
+        for(i=0;i<x;i++)
+        {
+            if(sp[i]>='A'&&sp[i]<='Z')
+            l++;
+        }
+        if(l>s)
+        fg[0]=1;
+
+}
+void am()
+    {
+        l=0;
+        for(i=0;i<y;i++)
+        {
+            if(md[i]>='A'&&md[i]<='Z')
+            l++;
+        }
+        if(l>m)
+        fg[1]=1;
+
+}
+void bm()
+    {
+        l=0;for(i=0;i<y;i++)
+        {
+            if(md[i]>='A'&&md[i]<='Z')
+            l++;
+        }
+        if(l>m)
+        fg[1]=1;
+}
+void bc()
+    {
+        l=0;for(i=0;i<z;i++)
+        {
+            if(cp[i]>='A'&&cp[i]<='Z')
+            l++;
+        }
+        if(l>c)
+        fg[2]=1;
+}
+int comb(int p,int q,char r[])
+{
+    for(i=0;i<p;i++)
+    {
+        if(r[i]=='0')
+        p--;
+    }
+    return(fact(p)/(fact(p-q)*fact(q)));
+}
+int fact(int d)
+{
+    if(d==0||d==1)return 1;
+    return(d*fact(d-1));
+}   
+    }    
