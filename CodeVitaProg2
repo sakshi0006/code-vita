@@ -1,0 +1,90 @@
+import java.util.*;
+class prog2
+{
+    int R,i,Tid[],Amt[],Balance[],a,b,c;
+    float A;
+    double totalInterest,I1,I2,Result,sum=0;
+    String Ttype[],s[],tp[];
+    void main()
+    {
+        Scanner br=new Scanner(System.in);
+        System.out.println("Enter value of A");
+        A=br.nextFloat();
+        System.out.println("Enter value of R");
+        R=br.nextInt();
+        System.out.println("Enter transactions R-2");s=new String[R-2];br.nextLine();
+        for(i=0;i<R-2;i++)
+        {
+            System.out.println("Enter for day="+(i+1));
+            s[i]=br.nextLine();
+        }
+        tp=new String[4];
+        Ttype=new String[R+1];
+        Tid=new int[R+1];
+        Amt=new int[R+1];
+        Balance=new int[R+1];
+       for(i=0;i<R-2;i++)
+        {
+            tp=s[i].split(" ");
+            Tid[i+1]=Integer.parseInt(tp[0]);
+            Amt[i+1]=Integer.parseInt(tp[1]);
+            Ttype[i+1]=tp[2];
+            Balance[i+1]=Integer.parseInt(tp[3]);
+        }
+        System.out.println("Enter total interest");
+        totalInterest=br.nextDouble();
+        for(i=0;i<R-2;i++)
+        {
+            sum+=(double)(Balance[i+1]*A)/(365*100);
+        }
+        System.out.println("Sum="+sum);
+        Result=totalInterest-sum;
+        for(i=0;i<R-2;i++)
+        {
+            if(i+1==Tid[i+1])
+            continue;
+            else
+            {
+                a=i+1;
+                b=a+1;
+                c=b+1;
+                Tid[R-1]=a;
+                Tid[R]=b;
+                break;
+            }
+        }
+        System.out.println("a="+a+" b="+b+" c="+c);
+        if(Ttype[a].equalsIgnoreCase("credit"))
+        {
+            Balance[R]=Balance[a]-Amt[a];
+        }
+        else
+        Balance[R]=Balance[a]+Amt[a];
+        I1=(double)(Balance[R]*A)/(36500);
+        I2=Result-I1;
+        Balance[R-1]=(int)Math.round(I2*36500/8);
+        if(Balance[a-1]<Balance[R-1])
+        {
+            Amt[R-1]=Balance[R-1]-Balance[a-1];
+            Ttype[R-1]="credit";
+        }
+        else
+        {
+            Amt[R-1]=-Balance[R-1]+Balance[a-1];
+            Ttype[R-1]="debit";
+        }
+        if(Balance[R-1]<Balance[R])
+        {
+            Amt[R]=Balance[R]-Balance[R-1];
+            Ttype[R]="credit";
+        }
+        else
+        { 
+            Amt[R]=-Balance[R]+Balance[R-1];
+            Ttype[R]="debit";
+        }
+        System.out.println(Tid[R-1]+" "+Amt[R-1]+" "+Ttype[R-1]+" "+Balance[R-1]);
+        System.out.println(Tid[R]+" "+Amt[R]+" "+Ttype[R]+" "+Balance[R]);
+        
+    }
+}
