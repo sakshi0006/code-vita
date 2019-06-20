@@ -1,0 +1,74 @@
+import java.util.*;
+class prog4
+{
+     int res[][];int d;
+    int[] swapString(int b[],int i,int j)
+    {
+        int ch=b[i];
+        b[i]=b[j];
+        b[j]=ch;
+        return b;
+    }
+    void generatePermute(int str[],int start,int end)
+    {
+        if(start==end-1)
+        {for(int j=0;j<str.length;j++)res[d][j]=str[j];
+            d++;
+        }
+        else
+        {
+            for(int i=start;i<end;i++)
+            {
+                str=swapString(str,start,i);
+                generatePermute(str,start+1,end);
+                str=swapString(str,start,i);
+            }
+        }
+    }
+    int[] factors(int a)
+    {
+        int s[],g=0,k=0;for(int i=1;i<=a;i++)
+        {
+            if(a%i==0)g++;
+        }s=new int[g];
+        for(int i=1;i<=a;i++)
+        {
+            if(a%i==0)
+            {s[k]=i;k++;}
+        }
+        return s;
+    }
+    int fact(int n){if(n==1)return 1;return(n*fact(n-1));}
+    void main()
+    {
+        int t,x[];int s[];
+        Scanner ob=new Scanner(System.in);
+        System.out.println("Enter number of test cases");
+        t=ob.nextInt();x=new int[t];for(int i=0;i<t;i++){System.out.println("Enter");x[i]=ob.nextInt();}
+        for(int i=0;i<t;i++)
+        {
+            d=0;
+            s=factors(x[i]);res=new int[fact(s.length)][s.length];
+            generatePermute(s,0,s.length);
+            System.out.println(check(s));
+        }
+    }
+    int check(int st[])
+    {
+        int t=d,o;
+        for(int i=0;i<d;i++)
+        {o=0;
+            for(int j=0;j<st.length-1;j++)
+            {
+                 for(int k=0;k<st.length-1;k++)
+            {
+           
+                if(res[i][k]==st[j]&&res[i][k+1]==st[j+1])
+                {    
+                   o=1; t--;break;
+                }
+            } if(o==1)break;} 
+        }
+        return t;
+    }
+}
